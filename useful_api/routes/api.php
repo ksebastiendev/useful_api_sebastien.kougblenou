@@ -22,3 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/modules', [ModuleController::class, 'index']);
 Route::post('/modules/{id}/activate',   [ModuleController::class, 'activate']);
 Route::post('/modules/{id}/deactivate', [ModuleController::class, 'deactivate']);
+
+Route::middleware('module.active:1')->get('/shortener/links', fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:2')->get('/wallet/balance',  fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:3')->get('/market/products', fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:4')->get('/time/sessions',   fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:5')->get('/invest/portfolio', fn() => response()->json(['ok' => true]));
