@@ -11,16 +11,20 @@ use App\Http\Controllers\ModuleController;
 
 // Route::apiResource('modules', ModuleController::class);
 
-Route::post('/register', [AuthController::class ,'register'] );
+Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/login', [AuthController::class ,'login'] );
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/logout', [AuthController::class ,'logout'] )->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
+Route::get('/modules', [ModuleController::class, 'index']);
+Route::post('/modules/{id}/activate',   [ModuleController::class, 'activate']);
+Route::post('/modules/{id}/deactivate', [ModuleController::class, 'deactivate']);
 
-Route::get('/modules', [ModuleController::class ,'modules'] );
-Route::post('/modules/{id}/activate', [ModuleController::class ,'active'] );
-Route::post('/modules/{id}/deactivate', [ModuleController::class ,'deactive'] );
-
-
-
+Route::middleware('module.active:1')->get('/shortener/links', fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:2')->get('/wallet/balance',  fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:3')->get('/market/products', fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:4')->get('/time/sessions',   fn() => response()->json(['ok' => true]));
+Route::middleware('module.active:5')->get('/invest/portfolio', fn() => response()->json(['ok' => true]));

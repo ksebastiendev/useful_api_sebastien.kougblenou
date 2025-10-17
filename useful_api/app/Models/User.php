@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +47,22 @@ class User extends Authenticatable
         ];
     }
 
-     public function module (){
-        return $this->hasMany(Module::class);
+    //  public function module (){
+    //     return $this->hasMany(Module::class);
+    // }
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'user_modules')
+            ->withPivot('active')
+            ->withTimestamps();
+    }
+
+    public function hasActiveModule(int $moduleId): bool
+    {
+        return $this->modules()
+            ->where('modules.id', $moduleId)
+            ->wherePivot('active', true)
+            ->exists();
     }
 }

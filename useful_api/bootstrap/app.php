@@ -16,7 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ['prefix' => 'api', 'middleware' => ['api', 'auth:sanctum']],
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+        'module.active' => \App\Http\Middleware\CheckModuleActive::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
