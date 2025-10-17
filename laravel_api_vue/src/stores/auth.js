@@ -13,10 +13,10 @@ export const useAuthStotre = defineStore('authStore', {
     async authenticate(apiRoute, formData) {
      try{
       const res = fetch(`/api/${apiRoute}`, {
-        method: 'post',
+        method: 'POST',
         body: JSON.stringify(formData),
       })
-      const data = await res.json()
+      const data = await res.json();
       console.log(data);
 
       if (!res.ok) {
