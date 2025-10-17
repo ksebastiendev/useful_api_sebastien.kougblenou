@@ -11,17 +11,14 @@ use App\Http\Controllers\ModuleController;
 
 // Route::apiResource('modules', ModuleController::class);
 
-Route::post('/register', [AuthController::class ,'register'] );
+Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/login', [AuthController::class ,'login'] );
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class ,'logout']);
-
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
-Route::get('/modules', [ModuleController::class ,'modules'] );
-Route::post('/modules/{id}/activate', [ModuleController::class ,'active'] );
-Route::post('/modules/{id}/deactivate', [ModuleController::class ,'deactive'] );
 
-
-
+Route::get('/modules', [ModuleController::class, 'index']);
+Route::post('/modules/{id}/activate',   [ModuleController::class, 'activate']);
+Route::post('/modules/{id}/deactivate', [ModuleController::class, 'deactivate']);
